@@ -26,7 +26,7 @@ public class SeedData implements CommandLineRunner
         t1.getStudents().add(new Student("Jason Belgard", 60.5, t1));
         t1.getStudents().add(new Student("Justin Trombley", 70.5, t1));
         t1.getStudents().add(new Student("Jose Montero", 90.7, t1));
-        t1.getStudents().add(new Student("Jacob Tonna", 85.4, t1));
+        t1.getStudents().add(new Student("Donald Whitely ", 85.4, t1));
         t1.getStudents().add(new Student("Luis Ocasio", 44.5, t1));
 
         teacherService.save(t1);
