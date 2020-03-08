@@ -8,7 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+//@Component
 @Transactional // pick the @Transactional that's associated with the Spring Framework
 public class SeedData implements CommandLineRunner
 {
