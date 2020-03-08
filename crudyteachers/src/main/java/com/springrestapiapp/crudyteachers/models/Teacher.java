@@ -1,5 +1,7 @@
 package com.springrestapiapp.crudyteachers.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class Teacher // singular Classes
                 orphanRemoval = true, // If there's a student not assigned to a teacher it gets removed.
                 cascade = CascadeType.ALL) // If you worked with teacher then you'd also be able to work with students.
                                             // This is bridging teacher and student together
+
+    @JsonIgnoreProperties("teacher")
     private List<Student> students = new ArrayList<>();
 
     public Teacher() // If you don't have this default constructor you'll get really weird error messages! TRUST ME YOU'LL NEED THIS!

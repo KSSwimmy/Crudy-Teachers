@@ -1,6 +1,8 @@
 package com.springrestapiapp.crudyteachers.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +21,8 @@ public class Student
     @JoinColumn(name = "teacherid", // this is the same teacherid in the Teacher class
                                     //JoinColumn connects them.
                 nullable = false)
+
+    @JsonIgnoreProperties("students")
     private Teacher teacher;
 
     public Student() // Every time we make a class that is going to be an entity we're going to have to
