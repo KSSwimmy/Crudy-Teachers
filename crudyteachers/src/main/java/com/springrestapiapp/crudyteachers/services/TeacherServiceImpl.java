@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,19 +31,34 @@ public class TeacherServiceImpl implements TeacherService
     @Override
     public Teacher findTeacherById(long id)
     {
-        return null;
+        return teachrepos.findById(id) // checking to make sure the teacher exists.
+                .orElseThrow(() -> new EntityNotFoundException("Id" + id));
     }
 
     @Override
     public Teacher findTeacherByName(String name)
     {
-        return null;
+        Teacher teacher = teachrepos.findByName(name); // findByName was created in TeacherRepository.
+
+        if (teacher == null)
+        {
+            throw new EntityNotFoundException("Teacher " + name + " not found!");
+        }
+
+        return teacher;
     }
 
     @Override
     public void delete(long id)
     {
-
+        if (teachrepos.findById(id).isPresent())
+        {
+            teachrepos.deleteById(id);
+        }
+        else
+        {
+            throw new EntityNotFoundException(Long.toString(id));
+        }
     }
 
     @Transactional //Running as a single transaction. Either it all works or it all fails.
@@ -67,6 +83,42 @@ public class TeacherServiceImpl implements TeacherService
     @Override
     public Teacher update(Teacher teacher, long id)
     {
-        return null;
+        Teacher currentTeacher = teachrepos.findById(id)
+                                                .orElseThrow(() -> new EntityNotFoundException(Long.toString(id)));
+
+        if (teacher.getName() != null)
+        {
+            currentTeacher.setName(teacher.getName());
+        }
+
+        if (teacher.getAddress() != null)
+        {
+            currentTeacher.setAddress(teacher.getAddress());
+        }
+
+        if (teacher.getCity() != null)
+        {
+            currentTeacher.setCity(teacher.getCity());
+        }
+
+        if (teacher.getState() != null)
+        {
+            currentTeacher.setState(teacher.getState());
+        }
+
+        if (teacher.getTelephone() != null)
+        {
+            currentTeacher.setTelephone(teacher.getTelephone());
+        }
+
+        if (teacher.getStudents().size() > 0)
+        {
+            for (Student s : teacher.getStudents())
+            {
+                currentTeacher.getStudents().add(new Student(s.getName(), s.getGrade(), currentTeacher));
+            }
+        }
+
+        return teachrepos.save(currentTeacher);
     }
 }
